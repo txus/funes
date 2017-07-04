@@ -2,8 +2,9 @@
   "Generates Schemas from Funes ASTs"
   (:require
    [clojure.walk :as w]
+   [funes.ast :refer [ast?]]
    [schema.core :as s])
-  (:import [funes.core AST]))
+  (:import [funes.ast AST]))
 
 (defmulti generate-schema :tag)
 
@@ -77,7 +78,7 @@
   [ast]
   (w/postwalk
     (fn [node]
-      (if (instance? AST node)
+      (if (ast? node)
         (let [{:keys [tag inferrable]} node]
           (cond (= tag :type)
                 (AST. :type (generalize-type inferrable))

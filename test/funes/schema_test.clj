@@ -1,6 +1,6 @@
 (ns funes.schema-test
   (:require [funes.schema :as sut :refer [generate-schema generalize-values]]
-            [funes.core :refer [->AST]]
+            [funes.ast :refer [->AST]]
             [schema.core :as s]
             [clojure.test :as t :refer :all]))
 
@@ -20,7 +20,7 @@
       (->AST :nil nil)
 
       `(s/optional-key :foo)
-      (->AST :optional-key (->AST :value :foo))
+      (->AST :optional-key :foo)
 
       `(s/enum :foo :bar)
       (->AST :enum [:foo :bar])
@@ -44,7 +44,7 @@
       (->AST :seq (->AST :type java.lang.Number))
 
       `{(s/optional-key :foo) s/Num}
-      (->AST :map {(->AST :optional-key (->AST :value :foo))
+      (->AST :map {(->AST :optional-key :foo)
                    (->AST :type java.lang.Number)}))))
 
 (deftest generalize-values-test

@@ -11,7 +11,9 @@
   representing a `schema.core` schema."
   (:require [clojure.set :as set]
             [funes.schema :as s]
-            [clojure.walk :as w]))
+            [funes.ast :refer [ast? ->AST]]
+            [clojure.walk :as w])
+  (:import [funes.ast AST]))
 
 (defprotocol Inferrable
   (infer [a b]))
@@ -22,9 +24,9 @@
       (recur (.getSuperclass kls))
       kls)))
 
-(declare ast? lift)
+(declare lift)
 
-(defrecord AST [tag inferrable]
+(extend-type AST
   Inferrable
   (infer [a b]
     (let [b (lift b)
@@ -117,9 +119,6 @@
 
         :else
         (AST. :any nil)))))
-
-(defn ast? [x]
-  (instance? AST x))
 
 (defn lift
   "Lifts any value to an AST representation."
@@ -219,15 +218,3 @@
        (reduce infer)
        s/generalize-values
        s/generate-schema))
-
-(let [data [{:age 20 :name "Funes" :traits [:memorious]}
-            {:age 40 :name "Borges" :traits [:writer]}
-            {:name "Dog" :breed "doge"}]]
-
-
-  (clojure.pprint/pprint
-   (-> {:age 20 :name "Funes" :traits [:memorious]}
-       (infer {:age 40 :name "Borges" :traits [:writer]})
-       (infer {:name "Dog" : 38})
-       s/generalize-values)))
-

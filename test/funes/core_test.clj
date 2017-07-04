@@ -1,7 +1,8 @@
 (ns funes.core-test
   (:require  [clojure.test :refer :all]
              [schema.core :as s]
-             [funes.core :as sut :refer [infer lift ->AST]]))
+             [funes.ast :refer [->AST]]
+             [funes.core :as sut :refer [infer lift]]))
 
 (deftest lift-test
   (testing "lifts any value to an AST"
