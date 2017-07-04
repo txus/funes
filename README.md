@@ -48,7 +48,7 @@ yourself. The above call to `(f/->schema data)` evaluates to:
 
 Funes is in no way coupled to `prismatic/schema`. The namespace that generates
 schemas is `funes.schema`, and it's just 100 lines of code describing a
-compilear from Funes' internal AST to Schema, but it should be equally trivial
+compiler from Funes' internal AST to Schema, but it should be equally trivial
 to compile to `clojure.spec`. I'd like to to that soon, but feel free to give it
 a go if you'd like!
 
