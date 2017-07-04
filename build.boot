@@ -21,4 +21,8 @@
   []
   (comp (pom) (jar) (install)))
 
+(deftask release
+  []
+  (comp (pom) (jar) (push)))
+
 (require '[adzerk.boot-test :refer [test]])
